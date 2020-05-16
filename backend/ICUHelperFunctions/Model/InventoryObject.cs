@@ -4,17 +4,19 @@ using System.Text;
 
 namespace ICUHelperFunctions.Model
 {
-    class InventoryObject
+    public class InventoryObject
     {
-        string sku { get; set; }
+        public string sku { get; set; }
 
-        string name { get; set; }
+        public  string name { get; set; }
 
-        string description { get; set; }
+        public string description { get; set; }
 
-        int inventoryNumber { get; set; }
+        public int inventoryNumber { get; set; }
 
-        int isdepleted { get; set; }
+        public int isdepleted { get; set; }
+
+        public int addedNumber { get; set; }
 
 
     }

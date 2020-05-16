@@ -7,22 +7,26 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using ICUHelperFunctions.Model;
 using System.Data.SqlClient;
 
 namespace ICUHelperFunctions
 {
-    public static class getPatientsAssigned
+    public static class addInventory
     {
-        [FunctionName("getPatientsAssigned")]
+        [FunctionName("addInventory")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            HealthCareWorker auxObj = new HealthCareWorker();
+            InventoryObject auxObj = new InventoryObject();
 
 
+            log.LogInformation("C# HTTP trigger function processed a request.");
 
-            auxObj.userId = Int32.Parse(req.Query["idNumber"]);
+            auxObj.sku = req.Query["sku"];
+            auxObj.addedNumber = Int32.Parse( req.Query["quantity"]);
+           
 
 
 
@@ -32,7 +36,7 @@ namespace ICUHelperFunctions
 
             string responseMessage = "";
 
-            if (string.IsNullOrEmpty(req.Query["idNumber"]))
+            if (string.IsNullOrEmpty(req.Query["sku"]))
             {
                 responseMessage = "{\"result\":\" parameter missing in your request\"}";
                 return new OkObjectResult(responseMessage);
@@ -42,7 +46,7 @@ namespace ICUHelperFunctions
             {
 
 
-                string writeResult = searchDB(auxObj);
+                string writeResult = WriteToDB(auxObj);
 
                 if (writeResult == "inserted patient into DB")
                 {
@@ -61,23 +65,34 @@ namespace ICUHelperFunctions
 
 
 
-        public static string searchDB(HealthCareWorker objPatient)
+        public static string WriteToDB(InventoryObject objInventory)
         {
-
+            int auxItemQuantity;
+            InventoryObject queryObj = new InventoryObject();
             string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 
             int result = 0;
-            using (SqlConnection connection = new SqlConnection(cnnString))
+            using (SqlConnection connection = new SqlConnection("Server=tcp:nursehack.database.windows.net,1433;Initial Catalog=nursehackdb;Persist Security Info=False;User ID=alerico;Password=Albus19878712;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
-                String query = "get the patient list given doc ID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                String query1 = "SELECT * FROM [dbo].[supplies] WHERE sku = '53808-0627' ";
+
+                String query2 = " ";
+
+
+
+
+                auxItemQuantity = queryObj.inventoryNumber + objInventory.addedNumber;
+
+                using (SqlCommand command = new SqlCommand(query1, connection))
                 {
                     try
                     {
+                        //Search for the remaining items query missing
 
-                        command.Parameters.AddWithValue("@user_id", objPatient.userId);
-
-
+                        //Adds the item
+                        //command.Parameters.AddWithValue("@sku", objInventory.sku);
+                       // command.Parameters.AddWithValue("@inventory", objInventory.inventoryNumber);
+                        
 
                         connection.Open();
                         result = command.ExecuteNonQuery();
@@ -120,5 +135,7 @@ namespace ICUHelperFunctions
 
         }
     }
-}
 
+
+
+}

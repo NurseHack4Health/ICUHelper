@@ -36,7 +36,7 @@ namespace ICUHelperFunctions
             auxObj.idType = Int32.Parse(req.Query["idType"]);
             auxObj.gender = Int32.Parse(req.Query["genderId"]);
 
-            DateTime fecha = Convert.ToDateTime(req.Query["dob"]);
+            DateTime dob = Convert.ToDateTime(req.Query["dob"]);
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -55,7 +55,7 @@ namespace ICUHelperFunctions
             {
 
 
-                string writeResult = WriteToDB(auxObj,fecha);
+                string writeResult = WriteToDB(auxObj,dob);
 
                 if (writeResult == "inserted patient into DB")
                 {
@@ -74,7 +74,7 @@ namespace ICUHelperFunctions
 
 
 
-        public static string  WriteToDB(Patient objPatient, DateTime fecha)
+        public static string  WriteToDB(Patient objPatient, DateTime dob)
         {
 
             string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
@@ -83,7 +83,7 @@ namespace ICUHelperFunctions
             using (SqlConnection connection = new SqlConnection(cnnString))
             {
                 String query = "insert into [dbo].[users](full_name, phone,emergency_contact,phone_emergency_contact,gender_id,date_of_birth,identification_number,identificaton_type)values(@full_name, @phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type); ";
-                var sqlFormattedDate = objPatient.dob.Date.ToString("yyyy-MM-dd HH:mm:ss");
+
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
@@ -94,7 +94,7 @@ namespace ICUHelperFunctions
                         command.Parameters.AddWithValue("@emergency_contact", objPatient.emergencyContact);
                         command.Parameters.AddWithValue("@phone_emergency_contact", objPatient.phoneEmergencyContact);
                         command.Parameters.AddWithValue("@gender_id", objPatient.gender);
-                        command.Parameters.AddWithValue("@date_of_birth", fecha);
+                        command.Parameters.AddWithValue("@date_of_birth", dob);
                         command.Parameters.AddWithValue("@identification_number", objPatient.idNumber);
                         command.Parameters.AddWithValue("@identificaton_type", objPatient.idType);
 
