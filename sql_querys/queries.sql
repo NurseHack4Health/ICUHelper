@@ -115,3 +115,37 @@ FROM dbo.patient_assignation pa
     JOIN dbo.conditions c on (p.condition_id=c.id)
 WHERE u.id=@user_id;
 
+/**/
+
+WITH
+    supplies_inventory
+    as
+    (
+        /* consults how many supplies are in the inventory
+    */
+        SELECT s.id,
+            s.sku,
+            s.name,
+            s.inventory as deposit
+        FROM dbo.supplies s
+    ),
+
+    supplies_in_use
+    as
+    (
+        /* consults how many supplies are in use
+    */
+        SELECT ps.supplies_id,
+            COUNT (id) as in_use
+        FROM dbo.patient_supplies ps
+        GROUP BY ps.supplies_id
+    )
+/* consults how many supplies avalible an saves in the supplies_avalible var.  
+*/
+SELECT si.sku,
+    si.name,
+    SUM(si.deposit - suin.in_use) as supplies_avalible
+FROM supplies_inventory si
+    JOIN supplies_in_use suin on (suin.supplies_id=si.id)
+GROUP BY si.sku,si.name;
+
