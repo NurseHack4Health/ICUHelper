@@ -65,7 +65,7 @@ namespace ICUHelperFunctions
 
         public static int WriteToDB(InventoryObject objInventory)
         {
-             string cnnString = "Server=nursehack.database.windows.net;Database=nursehackdb;Integrated Security=False;User ID=isacalderon;Password=SuperSecret!;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"; 
+             string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION"); 
              int idInsert= 0; 
              StringBuilder sBquery = new StringBuilder();
              sBquery.Append("DECLARE @return_value int ");
