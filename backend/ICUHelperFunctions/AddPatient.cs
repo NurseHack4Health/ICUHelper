@@ -24,19 +24,7 @@ namespace ICUHelperFunctions
             ILogger log)
         {
             Patient auxObj = new Patient();
-            // auxObj.ObjUser = new User();
-
-
-
-            /*
-            command.Parameters.AddWithValue("@full_name", objPatient.userID);
-            command.Parameters.AddWithValue("@phone", objPatient.ObjUser.phone);
-            command.Parameters.AddWithValue("@emergency_contact", objPatient.ObjUser.emergencyContact);
-            command.Parameters.AddWithValue("@phone_emergency_contact", objPatient.ObjUser.phoneEmergencyContact);
-            command.Parameters.AddWithValue("@gender_id", objPatient.ObjUser.gender);
-            command.Parameters.AddWithValue("@date_of_birth", objPatient.ObjUser.dob);
-            command.Parameters.AddWithValue("@identification_number", objPatient.ObjUser.idNumber);
-            command.Parameters.AddWithValue("@identificaton_type", objPatient.ObjUser.idType);*/
+           
 
             log.LogInformation("C# HTTP trigger function processed a request.");
 
@@ -44,19 +32,12 @@ namespace ICUHelperFunctions
             auxObj.phone = req.Query["phone"];
             auxObj.emergencyContact = req.Query["emergencyContact"];
             auxObj.phoneEmergencyContact = req.Query["phoneEmergencyContact"];
-            // auxObj.dob = req.Query["dob"];
             auxObj.idNumber = Int32.Parse(req.Query["idNumber"]);
             auxObj.idType = Int32.Parse(req.Query["idType"]);
             auxObj.gender = Int32.Parse(req.Query["genderId"]);
 
-            //auxObj.fullName = req.Query["fullName"];
-
-            // auxObj.dob = DateTime.ParseExact(req.Query["dob"], "yyyy-MM-dd HH:mm:ss",
-            //   System.Globalization.CultureInfo.InvariantCulture);
             DateTime fecha = Convert.ToDateTime(req.Query["dob"]);
 
-            //auxObj.patientId= Int32.Parse(req.Query["patientId"]);
-            //  auxObj.phone = req.Query["phone"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
