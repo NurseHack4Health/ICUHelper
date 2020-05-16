@@ -153,4 +153,13 @@ GROUP BY si.sku,si.name;
 */
 
 SELECT pt.token
-FROM dbo.powerbi_token pt
+FROM dbo.powerbi_token 
+
+/* to update if a patient need a ventilator you need get the patient id linked to that user id
+*/
+
+SELECT @patient_id = id
+FROM dbo.patient
+WHERE user_id=@userId
+
+UPDATE dbo.Patient SET using_ventilator = @using_ventilator Where id = @patient_id;
