@@ -74,35 +74,33 @@ namespace ICUHelperFunctions
             {
 
 
-                int writeResult = WriteToDB(auxObj,fecha);
+                string writeResult = WriteToDB(auxObj,fecha);
 
-                if (writeResult >= 0)
+                if (writeResult == "inserted patient into DB")
                 {
-                    responseMessage = "{\"result\":\"wrote " + writeResult + " record(s) to db\"}";
+                    responseMessage = writeResult;
                     return new OkObjectResult(responseMessage);
                 }
                 else
                 {
-                    responseMessage = "{\"result\":\"error # " + writeResult + " when uploading data\"}";
+                    responseMessage = writeResult;
                     return new OkObjectResult(responseMessage);
                 }
 
-                // return new OkObjectResult(responseMessage);
             }
         }
 
 
 
 
-        public static int WriteToDB(Patient objPatient, DateTime fecha)
+        public static string  WriteToDB(Patient objPatient, DateTime fecha)
         {
 
             string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
             
-            //  Console.WriteLine(cnnString);
             int result = 0;
-            using (SqlConnection connection = new SqlConnection("")            {
-                // String query = "insert into [dbo].[patient] (user_id,condition_id) values (@userId,@conditionId)";
+            using (SqlConnection connection = new SqlConnection("")
+            {
                 String query = "insert into [dbo].[users](full_name, phone,emergency_contact,phone_emergency_contact,gender_id,date_of_birth,identification_number,identificaton_type)values(@full_name, @phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type); ";
                 var sqlFormattedDate = objPatient.dob.Date.ToString("yyyy-MM-dd HH:mm:ss");
                 using (SqlCommand command = new SqlCommand(query, connection))
@@ -115,7 +113,6 @@ namespace ICUHelperFunctions
                         command.Parameters.AddWithValue("@emergency_contact", objPatient.emergencyContact);
                         command.Parameters.AddWithValue("@phone_emergency_contact", objPatient.phoneEmergencyContact);
                         command.Parameters.AddWithValue("@gender_id", objPatient.gender);
-                       // command.Parameters.AddWithValue("@date_of_birth", sqlFormattedDate);
                         command.Parameters.AddWithValue("@date_of_birth", fecha);
                         command.Parameters.AddWithValue("@identification_number", objPatient.idNumber);
                         command.Parameters.AddWithValue("@identificaton_type", objPatient.idType);
@@ -123,16 +120,30 @@ namespace ICUHelperFunctions
 
                         connection.Open();
                         result = command.ExecuteNonQuery();
+
+                    if (result > 0)
+                    {
+
+                        return "inserted patient into DB";
+                    }
+
+                    else {
+
+                        return "no patient added";
+                    }
+
+
                     }
                     catch (Exception e)
                     {
 
                         Console.WriteLine("Error inserting data into Database!");
+                        return "error inserting into DB";
                         //return result;
                     }
 
 
-                    // return result;
+                
 
 
 
@@ -141,7 +152,7 @@ namespace ICUHelperFunctions
 
                 }
 
-                return result;
+              
 
             }
 
