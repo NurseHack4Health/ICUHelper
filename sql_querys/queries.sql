@@ -149,3 +149,17 @@ FROM supplies_inventory si
     JOIN supplies_in_use suin on (suin.supplies_id=si.id)
 GROUP BY si.sku,si.name;
 
+/* calls the powerbi token
+*/
+
+SELECT pt.token
+FROM dbo.powerbi_token 
+
+/* to update if a patient need a ventilator you need get the patient id linked to that user id
+*/
+
+SELECT @patient_id = id
+FROM dbo.patient
+WHERE user_id=@userId
+
+UPDATE dbo.Patient SET using_ventilator = @using_ventilator Where id = @patient_id;
