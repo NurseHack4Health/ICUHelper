@@ -37,7 +37,8 @@ namespace ICUHelperFunctions
             if (!string.IsNullOrEmpty(responseMessage))
             {
 
-                var jsonToReturn = JsonConvert.SerializeObject(responseMessage);
+                var myObj = new { token = responseMessage};
+                var jsonToReturn = JsonConvert.SerializeObject(myObj);
                 return new HttpResponseMessage(HttpStatusCode.OK)
                 {
                     Content = new StringContent(jsonToReturn, Encoding.UTF8, "application/json")
