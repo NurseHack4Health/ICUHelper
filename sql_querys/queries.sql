@@ -130,3 +130,4 @@ FROM dbo.patient_assignation pa
     JOIN dbo.users u2 on (u2.id=p.user_id)
     JOIN dbo.conditions c on (p.condition_id=c.id)
 WHERE u.id=@user_id;
+
