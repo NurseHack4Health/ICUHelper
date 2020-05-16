@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
-using System.Text.Json.Serialization;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace ICUHelperFunctions
 
@@ -38,6 +39,7 @@ namespace ICUHelperFunctions
 
             DateTime dob = Convert.ToDateTime(req.Query["dob"]);
 
+            auxObj.patientId = hashGeneratorHistoryPatient(auxObj);
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -82,7 +84,7 @@ namespace ICUHelperFunctions
             int result = 0;
             using (SqlConnection connection = new SqlConnection(cnnString))
             {
-                String query = "insert into [dbo].[users](full_name, phone,emergency_contact,phone_emergency_contact,gender_id,date_of_birth,identification_number,identificaton_type)values(@full_name, @phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type); ";
+                String query = "insert into [dbo].[users](full_name, phone,emergency_contact,phone_emergency_contact,gender_id,date_of_birth,identification_number,identificaton_type,history_number)values(@full_name, @phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type,@history_number); ";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -97,6 +99,8 @@ namespace ICUHelperFunctions
                         command.Parameters.AddWithValue("@date_of_birth", dob);
                         command.Parameters.AddWithValue("@identification_number", objPatient.idNumber);
                         command.Parameters.AddWithValue("@identificaton_type", objPatient.idType);
+                        command.Parameters.AddWithValue("@history_number", objPatient.patientId);
+
 
 
                         connection.Open();
@@ -137,6 +141,33 @@ namespace ICUHelperFunctions
 
 
             }
+
+        }
+
+
+        public static string hashGeneratorHistoryPatient(Patient objPatient) {
+
+
+            // generate a 128-bit salt using a secure PRNG
+            byte[] salt = new byte[128 / 8];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
+
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: objPatient.fullName+objPatient.idNumber,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA1,
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
+
+            return hashed;
+
+
+
 
         }
     }
