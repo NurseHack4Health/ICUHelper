@@ -163,3 +163,4 @@ FROM dbo.patient
 WHERE user_id=@userId
 
 UPDATE dbo.Patient SET using_ventilator = @using_ventilator Where id = @patient_id;
+

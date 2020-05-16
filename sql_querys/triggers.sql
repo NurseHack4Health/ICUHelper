@@ -61,5 +61,40 @@ BEGIN
 END
 ;
 
+/* Procedure to insert supplies
+*/
+
+CREATE PROCEDURE dbo.validate_supplies_insert
+    @sku_in varchar(250),
+    @name_in varchar(700),
+    @description_in varchar(MAX),
+    @inventory_in int,
+    @id_out int OUT
+AS
+BEGIN
+
+    SELECT @id_out = s.id
+    FROM dbo.supplies s
+    WHERE s.sku=@sku_in;
+    SET @id_out=IsNull(@id_out,0);
+
+    IF (@id_out=0)
+	BEGIN
+        INSERT INTO nursehackdb.dbo.supplies
+            (sku, name, description, inventory)
+        VALUES(@sku_in, @name_in, @description_in, @inventory_in);
+        SELECT @id_out=id
+        FROM nursehackdb.dbo.supplies
+        WHERE sku=@sku_in;
+        RETURN @id_out;
+    END
+    ELSE
+    BEGIN
+        UPDATE nursehackdb.dbo.supplies SET inventory=@inventory_in WHERE sku=@sku_in;
+        RETURN @id_out;
+    END
+END
+;
+
 
 
