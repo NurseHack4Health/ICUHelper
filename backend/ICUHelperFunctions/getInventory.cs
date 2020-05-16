@@ -17,7 +17,8 @@ namespace ICUHelperFunctions
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            log.LogInformation("C# HTTP trigger function processed a request. prueba isa en GIt");
+            log.LogInformation("Hola isa");
 
             string name = req.Query["name"];
 
