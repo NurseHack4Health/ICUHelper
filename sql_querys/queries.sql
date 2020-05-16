@@ -30,22 +30,6 @@ INSERT INTO nursehackdb.dbo.users
     (full_name, phone, emergency_contact, phone_emergency_contact, gender_id, date_of_birth, identification_number, identificaton_type)
 VALUES(@full_name,@phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type);
 
-/*
-TRIGGER IN USERS
-BEGIN
-    declare @id_usert int
-    declare @vrol_type_id int
-    SELECT @vrol_type_id=5;
-    SELECT @id_usert = id
-    from inserted;
-    INSERT INTO dbo.patient (user_id,date_in,condition_id, using_ventilator)
-    VALUES (@id_usert, GETDATE(), 1, 0);
-    INSERT INTO dbo.rol (rol_type_id,user_id)
-    VALUES  (@vrol_type_id, @id_usert);
-END
-
-*/
-
 /* insert a patient, if the user already exists
 @user_id = who already exist 
 @condition_id = from the select condition default = 1 (Good)
