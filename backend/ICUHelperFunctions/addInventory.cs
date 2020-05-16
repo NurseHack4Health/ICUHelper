@@ -87,12 +87,7 @@ namespace ICUHelperFunctions
                 {
                     try
                     {
-                        //Search for the remaining items query missing
-
-                        //Adds the item
-                        //command.Parameters.AddWithValue("@sku", objInventory.sku);
-                       // command.Parameters.AddWithValue("@inventory", objInventory.inventoryNumber);
-                        
+                     
 
                         connection.Open();
                         result = command.ExecuteNonQuery();
