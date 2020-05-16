@@ -163,3 +163,14 @@ FROM dbo.patient
 WHERE user_id=@userId
 
 UPDATE dbo.Patient SET using_ventilator = @using_ventilator Where id = @patient_id;
+
+/*Query who calls the email from the persons who has the adminitration role. 
+*/
+
+SELECT ua.email
+FROM rol r
+    JOIN rol_type rt on (rt.id=r.rol_type_id)
+    JOIN users u on (u.id=r.user_id)
+    JOIN user_auth ua on (ua.user_id=u.id)
+WHERE rt.id=3; 
+
