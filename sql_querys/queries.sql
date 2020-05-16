@@ -149,3 +149,8 @@ FROM supplies_inventory si
     JOIN supplies_in_use suin on (suin.supplies_id=si.id)
 GROUP BY si.sku,si.name;
 
+/* calls the powerbi token
+*/
+
+SELECT pt.token
+FROM dbo.powerbi_token pt
