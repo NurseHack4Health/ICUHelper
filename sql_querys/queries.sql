@@ -30,22 +30,6 @@ INSERT INTO nursehackdb.dbo.users
     (full_name, phone, emergency_contact, phone_emergency_contact, gender_id, date_of_birth, identification_number, identificaton_type)
 VALUES(@full_name,@phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type);
 
-/*
-TRIGGER IN USERS
-BEGIN
-    declare @id_usert int
-    declare @vrol_type_id int
-    SELECT @vrol_type_id=5;
-    SELECT @id_usert = id
-    from inserted;
-    INSERT INTO dbo.patient (user_id,date_in,condition_id, using_ventilator)
-    VALUES (@id_usert, GETDATE(), 1, 0);
-    INSERT INTO dbo.rol (rol_type_id,user_id)
-    VALUES  (@vrol_type_id, @id_usert);
-END
-
-*/
-
 /* insert a patient, if the user already exists
 @user_id = who already exist 
 @condition_id = from the select condition default = 1 (Good)
@@ -130,3 +114,52 @@ FROM dbo.patient_assignation pa
     JOIN dbo.users u2 on (u2.id=p.user_id)
     JOIN dbo.conditions c on (p.condition_id=c.id)
 WHERE u.id=@user_id;
+
+/**/
+
+WITH
+    supplies_inventory
+    as
+    (
+        /* consults how many supplies are in the inventory
+    */
+        SELECT s.id,
+            s.sku,
+            s.name,
+            s.inventory as deposit
+        FROM dbo.supplies s
+    ),
+
+    supplies_in_use
+    as
+    (
+        /* consults how many supplies are in use
+    */
+        SELECT ps.supplies_id,
+            COUNT (id) as in_use
+        FROM dbo.patient_supplies ps
+        GROUP BY ps.supplies_id
+    )
+/* consults how many supplies avalible an saves in the supplies_avalible var.  
+*/
+SELECT si.sku,
+    si.name,
+    SUM(si.deposit - suin.in_use) as supplies_avalible
+FROM supplies_inventory si
+    JOIN supplies_in_use suin on (suin.supplies_id=si.id)
+GROUP BY si.sku,si.name;
+
+/* calls the powerbi token
+*/
+
+SELECT pt.token
+FROM dbo.powerbi_token 
+
+/* to update if a patient need a ventilator you need get the patient id linked to that user id
+*/
+
+SELECT @patient_id = id
+FROM dbo.patient
+WHERE user_id=@userId
+
+UPDATE dbo.Patient SET using_ventilator = @using_ventilator Where id = @patient_id;
