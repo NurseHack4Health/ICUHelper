@@ -1,6 +1,9 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Text; 
+using System.Web.Http; 
+using System.Data.SqlClient;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
@@ -8,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using ICUHelperFunctions.Model;
-using System.Data.SqlClient;
+
 
 namespace ICUHelperFunctions
 {
@@ -18,115 +21,84 @@ namespace ICUHelperFunctions
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
-        {
-            InventoryObject auxObj = new InventoryObject();
+        {         
+             log.LogInformation("C# HTTP trigger function insert inventory");
+            ResponseAddInventory response= new ResponseAddInventory(); 
 
-
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
-            auxObj.sku = req.Query["sku"];
-            auxObj.addedNumber = Int32.Parse( req.Query["quantity"]);
-           
-
-
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
-
-            string responseMessage = "";
-
-            if (string.IsNullOrEmpty(req.Query["sku"]))
+            try
             {
-                responseMessage = "{\"result\":\" parameter missing in your request\"}";
-                return new OkObjectResult(responseMessage);
+                InventoryObject auxObj = new InventoryObject();
+                auxObj.sku = req.Query["sku"];
+                auxObj.name = req.Query["name"];
+                auxObj.description = req.Query["description"];
+                auxObj.inventoryNumber = Int32.Parse(req.Query["quantity"]); 
 
+                 response.id_supplier = WriteToDB(auxObj);     
+
+                if( response.id_supplier != 0 )
+                {
+                    response.code= 200; 
+                    response.message= "success";
+                    
+                    log.LogInformation("Insert succes");
+                    //string responseMessage = JsonConvert.SerializeObject(avaibles); 
+                    return new OkObjectResult(response);
+                }
+                else 
+                {
+                    response.code= 101; 
+                    response.message= "Problem with the insert";
+                     log.LogInformation("Problem with the insert");
+                    return new ObjectResult(response); 
+                }
             }
-            else
+            catch(Exception ex)
             {
-
-
-                string writeResult = WriteToDB(auxObj);
-
-                if (writeResult == "inserted patient into DB")
-                {
-                    responseMessage = writeResult;
-                    return new OkObjectResult(responseMessage);
-                }
-                else
-                {
-                    responseMessage = writeResult;
-                    return new OkObjectResult(responseMessage);
-                }
-
+                log.LogInformation("Error" + ex.Message);
+                return new ExceptionResult (ex, true); 
             }
+
+
+            
         }
 
 
-
-
-        public static string WriteToDB(InventoryObject objInventory)
+        public static int WriteToDB(InventoryObject objInventory)
         {
-            int auxItemQuantity;
-            InventoryObject queryObj = new InventoryObject();
-            string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
-
-            int result = 0;
-            using (SqlConnection connection = new SqlConnection("Server=tcp:nursehack.database.windows.net,1433;Initial Catalog=nursehackdb;Persist Security Info=False;User ID=alerico;Password=Albus19878712;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+             string cnnString = "Server=nursehack.database.windows.net;Database=nursehackdb;Integrated Security=False;User ID=isacalderon;Password=SuperSecret!;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"; 
+             int idInsert= 0; 
+             StringBuilder sBquery = new StringBuilder();
+             sBquery.Append("DECLARE @return_value int ");
+             sBquery.AppendFormat("EXEC @return_value = dbo.validate_supplies_insert  @sku_in= {0}, @name_in= {1}, @description_in= {2}, @inventory_in= {3},  @id_out= null ", 
+                                   objInventory.sku, objInventory.name, objInventory.description, objInventory.inventoryNumber );
+             sBquery.Append("SELECT	'Return Value' = @return_value ");
+           
+            string query= sBquery.ToString(); 
+            SqlDataReader dataReader; 
+            using (SqlConnection connection = new SqlConnection(cnnString))
             {
-                String query1 = "SELECT * FROM [dbo].[supplies] WHERE sku = '53808-0627' ";
-
-                String query2 = " ";
-
-
-
-
-                auxItemQuantity = queryObj.inventoryNumber + objInventory.addedNumber;
-
-                using (SqlCommand command = new SqlCommand(query1, connection))
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    try
-                    {
-                     
-
-                        connection.Open();
-                        result = command.ExecuteNonQuery();
-
-                        if (result > 0)
+                        try
                         {
+                            connection.Open(); 
+                             dataReader = command.ExecuteReader();
 
-                            return "inserted patient into DB";
+                              while (dataReader.Read())
+                              {                                    
+                                    idInsert= dataReader.GetInt32(0); 
+                              }
+                
+
                         }
-
-                        else
-                        {
-
-                            return "no patient added";
+                        catch(Exception ex)
+                        {                           
+                            throw; 
                         }
-
-
-                    }
-                    catch (Exception e)
-                    {
-
-                        Console.WriteLine("Error inserting data into Database!");
-                        return "error inserting into DB";
-                        //return result;
-                    }
-
-
-
-
-
-
-
-
-
                 }
-
-
-
             }
+
+            return idInsert; 
 
         }
     }
