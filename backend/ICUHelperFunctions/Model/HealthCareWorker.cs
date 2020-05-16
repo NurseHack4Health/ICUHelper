@@ -4,14 +4,14 @@ using System.Text;
 
 namespace ICUHelperFunctions
 {
-    class HealthCareWorker
+    public class HealthCareWorker
     {
-        int userId { get; set; }
+        public int userId { get; set; }
 
-        int specialtyId { get; set; }
+        public int specialtyId { get; set; }
 
-        string licenseNumber { get; set; }
+        public string licenseNumber { get; set; }
 
-        User objUser { get; set; }
+        public User objUser { get; set; }
     }
 }
