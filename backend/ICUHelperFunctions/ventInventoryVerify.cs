@@ -32,7 +32,7 @@ namespace ICUHelperFunctions
 
                 var client = new SendGridClient(sendgridApi);
                 var from = new EmailAddress(fromEmail, fromUser);
-                var subject = "Sending with SendGrid is Fun";
+                var subject = "Ventilators are running out!";
                 var to = new EmailAddress(adminEmail, adminName);
                 var plainTextContent = "";
                 var htmlContent = ""; //MISSING TEMPLATE
