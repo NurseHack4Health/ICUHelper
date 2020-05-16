@@ -9,7 +9,6 @@ namespace ICUHelperFunctions
     public class Patient
     {
    
-       // public User ObjUser { get; set; }
 
         public int patientId { get; set; }
 
@@ -23,9 +22,9 @@ namespace ICUHelperFunctions
 
         public int isInVent { get; set; }
 
-        public List<string> symptoms { get; set; }
+        public string symptoms { get; set; }
 
-        public List<string> medications { get; set; }
+        public string medications { get; set; }
 
         public string condition { get; set; }
 
