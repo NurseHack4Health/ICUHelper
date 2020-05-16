@@ -23,7 +23,7 @@ namespace ICUHelperFunctions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = "dfsdf";
+           
             string token="";
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -34,16 +34,28 @@ namespace ICUHelperFunctions
                 ? response
                 : token;
 
-            var jsonToReturn = JsonConvert.SerializeObject(responseMessage);
-            //var ontent = new StringContent(jsonToReturn, Encoding.UTF8, "application/json");
-
-          //  return new OkObjectResult(new StringContent(jsonToReturn, Encoding.UTF8, "application/json"));
-
-
-            return new HttpResponseMessage(HttpStatusCode.OK)
+            if (!string.IsNullOrEmpty(responseMessage))
             {
-                Content = new StringContent(jsonToReturn, Encoding.UTF8, "application/json")
-            };
+
+                var jsonToReturn = JsonConvert.SerializeObject(responseMessage);
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(jsonToReturn, Encoding.UTF8, "application/json")
+                };
+
+            }
+
+            else {
+
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                };
+
+            }
+            
+         
+
+          
         }
 
 
@@ -55,7 +67,7 @@ namespace ICUHelperFunctions
             string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 
             int result = 0;
-            using (SqlConnection connection = new SqlConnection(cnnString))
+            using (SqlConnection connection = new SqlConnection("Server=tcp:nursehack.database.windows.net,1433;Initial Catalog=nursehackdb;Persist Security Info=False;User ID=alerico;Password=Albus19878712;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 String query = "SELECT* FROM[dbo].[powerbi_token]";
 
@@ -96,7 +108,7 @@ namespace ICUHelperFunctions
                         else
                         {
 
-                            return "couldn't retrieve token";
+                            return null;
                         }
 
 
