@@ -1,5 +1,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<head>
+<style>
+.wrapper {
+  width: 400px;
+  margin: 20px auto 0;
+  text-align: center;
+</style>
 
 
 <div style="background-color: #282c36">
@@ -43,7 +50,7 @@
               <table width="520" align="center" style="vertical-align:top;">
                   <tbody><tr>
                     <td align="center" style="display:block;vertical-align:top;">
-                      <p style="margin:0px;color:black;font-size:20px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:center;"><b>Ventilators are running out!</b></p>
+                      <p style="margin:0px;color:black;font-size:20px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:center;"><b>Supplies are running low!</b></p>
                     </td>
                   </tr>
 
@@ -54,7 +61,29 @@
                   </tr>
                   <tr>
                     <td align="center" style="display:block;vertical-align:top;">
-                      <p style="margin:0px;color:black;font-size:12px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:justify">As we know the medical ventilators are one important part of the COVID-19 treatment, right now we have less than <b>5 units</b> in the hospital. <b>Please get in touch with the medical staff to solve this critical issue.</b></p>
+                      <p style="margin:0px;color:black;font-size:12px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:justify">As we know the medical ventilators are one important part of the COVID-19 treatment, right now we are running low of supplies in the hospital. <b>Please get in touch with the medical staff to solve this critical issue.</b></p>
+                    <p> Low supplies: 
+                    </p>
+                    <div class="wrapper">
+                        <button>Mostrar paises</button>
+                      </div>
+                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+                     <script>
+                         var low_supplies="https://icuhelperfunctions.azurewebsites.net/api/getInventory?code=46BiSoIBZ6yUvaFkEuaRE/r0CUoZnJ7EfoJ7/ic9ldwVcf/gmNLBJg==" ;
+                          function(){
+                          var response = $res.text(low_supplies);
+                           var $table = $('<table></table>');
+                          $table.append("<tr><th>SKU</th><th>Name</th><th>Inventory</th></tr</th></tr>")
+                           $.each(response, function(i, item) {
+                               var tr = $('<tr>').append(
+                                 $('<td>').text(item.sku),
+                                   $('<td>').text(item.name),
+                                   $('<td>').text(item.inventory)
+                               ); 
+                               $table.append(tr);
+                             });
+                         }
+                     </script>
                     </td>
                   </tr>
 
