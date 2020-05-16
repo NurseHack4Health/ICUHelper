@@ -67,7 +67,7 @@ namespace ICUHelperFunctions
             string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
 
             int result = 0;
-            using (SqlConnection connection = new SqlConnection("Server=tcp:nursehack.database.windows.net,1433;Initial Catalog=nursehackdb;Persist Security Info=False;User ID=alerico;Password=Albus19878712;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
+            using (SqlConnection connection = new SqlConnection(cnnString))
             {
                 String query = "SELECT* FROM[dbo].[powerbi_token]";
 
