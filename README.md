@@ -25,6 +25,6 @@ Isa Calderon calderonisa90@gmail.com
  
 Sairo Guanipa sairojgg@gmail.com
  
-Skillsets Needed
+
 
  
