@@ -8,6 +8,8 @@ import MaterialTable from "material-table";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
+import axios from 'axios';
+import moment from 'moment';
 
 const styles = {
   cardCategoryWhite: {
@@ -40,13 +42,16 @@ const styles = {
 };
 
 const useStyles = makeStyles(styles);
-
-export default function TableList() {
-  const classes = useStyles();
-
-  const [state, setState] = React.useState({
-    columns: [
-      { 
+export default class Patients extends React.Component {
+  constructor(props) {
+      super(props);
+      const classes = makeStyles(styles);
+      this.state = {
+        posts: []
+      }
+      this.state = {
+        columns: [
+          { 
         title: 'SKU', 
         field: 'sku', 
         cellStyle: {
@@ -70,21 +75,22 @@ export default function TableList() {
           minWidth: 20
         } 
       },
-      { 
-        title: 'Description', 
+      {
+        title: 'Description',
         field: 'description',
+        type: 'text',
         cellStyle: {
-          width: 300,
-          minWidth: 300
+          width: 20,
+          minWidth: 20
         },
         headerStyle: {
-          width: 300,
-          minWidth: 300
-        }  
+          width:20,
+          maxWidth: 50
+        } 
       },
       {
         title: 'Inventory',
-        field: 'inventory',
+        field: 'supplies_avaible',
         type: 'numeric',
         cellStyle: {
           width: 20,
@@ -96,112 +102,89 @@ export default function TableList() {
         } 
       },
     ],
-    data: [
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 6 
-      },
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 5 
-      },
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 4
-      },
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 2
-      },
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 1
-      },
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 10
-      },
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 14
-      },
-      { sku: '1010110000', 
-        name: 'Thing 1', 
-        description: 'Description Description Description 1', 
-        inventory: 12
-      },
-      {
-        sku: '1010101001',
-        name: 'Thing 2',
-        description: 'Description Description Description 2',
-        inventory: 50,
-      },
-    ],
-  });
-
-  return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Supplies</h4>
-            <p className={classes.cardCategoryWhite}>
-              Here you can check your available supplies for your patients
-            </p>
-          </CardHeader>
-          <CardBody>
-            <MaterialTable
-              title={false}
-              columns={state.columns}
-              data={state.data}
-              editable={{
-                onRowAdd: (newData) =>
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      resolve();
-                      setState((prevState) => {
-                        const data = [...prevState.data];
-                        data.push(newData);
-                        return { ...prevState, data };
-                      });
-                    }, 600);
-                  }),
-                onRowUpdate: (newData, oldData) =>
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      resolve();
-                      if (oldData) {
-                        setState((prevState) => {
-                          const data = [...prevState.data];
-                          data[data.indexOf(oldData)] = newData;
-                          return { ...prevState, data };
-                        });
-                      }
-                    }, 600);
-                  }),
-                onRowDelete: (oldData) =>
-                  new Promise((resolve) => {
-                    setTimeout(() => {
-                      resolve();
-                      setState((prevState) => {
-                        const data = [...prevState.data];
-                        data.splice(data.indexOf(oldData), 1);
-                        return { ...prevState, data };
-                      });
-                    }, 600);
-                  }),
-              }}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-    </GridContainer>
-  );
-}
+        data: [],
+        classes: classes
+      };
+    }
+    fetchSupplies() {
+      axios
+      .get(`https://icuhelperfunctions.azurewebsites.net/api/getInventory?code=46BiSoIBZ6yUvaFkEuaRE/r0CUoZnJ7EfoJ7/ic9ldwVcf/gmNLBJg==`, {})
+      .then(res => {
+        const data = res.data.inventory;
+        this.setState({
+          data
+        })
+      })
+    }
+    componentWillMount(){
+      this.fetchSupplies()
+    }
+    
+  
+    render() {
+      return (
+        <div>
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={8}>
+              <Card>
+                <CardHeader color="primary">
+                  <h4 className={this.state.classes.cardTitleWhite}>Patients Profile</h4>
+                  <p className={this.state.classes.cardCategoryWhite}>Add or Modify Patients Data</p>
+                </CardHeader>
+                <CardBody>
+                <MaterialTable
+                  title={false}
+                  columns={this.state.columns}
+                  data={this.state.data}
+                  editable={{
+                    onRowAdd: (newData) =>
+                      new Promise((resolve) => {
+                        newData.sku = moment(newData.sku, "number").format("number");
+                        newData.name = moment(newData.name, "text").format("text");
+                        newData.description = moment(newData.description, "text").format("text");
+                        newData.supplies_avaible = moment(newData.supplies_avaible, "number").format("number");
+                        const url = "https://icuhelperfunctions.azurewebsites.net/api/addInventory?code=qGQr6Npysu/ZQVYRuxii0oz7y8DYU8mr7JbfstfKeiHFiht8yGi8uw=="
+                        axios.post(url, newData)
+                        .then( res => {
+                          resolve();
+                            const data = [...this.state.data];
+                            data.push(newData);
+                            this.state.data = { ...this.state.data, data };
+                        }, 600);
+                      }),
+                    onRowUpdate: (newData, oldData) =>
+                      new Promise((resolve, reject) => {
+                        
+                        setTimeout(() => {
+                          const checkEmpty = Object.values(newData).filter( v => v.length === 0 );
+                          if (checkEmpty.length !== 0) {
+                            reject();
+                            return;
+                          } 
+                          if (oldData) {
+                            resolve();
+                              const data = [...this.state.data];
+                              data[data.indexOf(oldData)] = newData;
+                              this.state.data = { ...this.state.data, data };
+                          }
+                        }, 600);
+                      }),
+                    onRowDelete: (oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          const data = [...this.state.data];
+                          data.splice(data.indexOf(oldData), 1);
+                          this.state.data = { ...this.state.data, data };
+                        }, 600);
+                      }),
+                  }}
+                />
+              </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        </div>
+      );
+    }
+  }
