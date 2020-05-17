@@ -13,6 +13,8 @@ Our Project will be focusing on empowering Doctors/Nurses to keep track of and m
  
 Doctors will have access dashboard showing their patients live updated symptoms/vital signs at a glance to enable them to treat more patients and keep up with demand in an increasingly overwhelmed healthcare system while also minimizing unnecessary contact. 
 
+![Image of logo](https://github.com/NurseHack4Health/ICUHelper/blob/master/Power%20BI%20Screenshot%201.jpg)
+
 The app has a built-in automated inventory reporting/alarm system, will let know the administrators if a supply is almost depleted with an email.
 
 
