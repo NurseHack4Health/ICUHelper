@@ -10,3 +10,15 @@ C:\Users\alangulo\Downloads\azure-iot-samples-csharp-master\azure-iot-samples-cs
 C:\Users\alangulo\Downloads\azure-iot-samples-csharp-master\azure-iot-samples-csharp-master\iot-hub\Quickstarts\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.dll
 C:\Users\alangulo\Downloads\azure-iot-samples-csharp-master\azure-iot-samples-csharp-master\iot-hub\Quickstarts\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.pdb
 C:\Users\alangulo\Downloads\azure-iot-samples-csharp-master\azure-iot-samples-csharp-master\iot-hub\Quickstarts\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.genruntimeconfig.cache
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\bin\Debug\netcoreapp2.1\BedSideMonitorSimulator.deps.json
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\bin\Debug\netcoreapp2.1\BedSideMonitorSimulator.runtimeconfig.json
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\bin\Debug\netcoreapp2.1\BedSideMonitorSimulator.runtimeconfig.dev.json
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\bin\Debug\netcoreapp2.1\BedSideMonitorSimulator.dll
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\bin\Debug\netcoreapp2.1\BedSideMonitorSimulator.pdb
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.csprojAssemblyReference.cache
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.csproj.CoreCompileInputs.cache
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.AssemblyInfoInputs.cache
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.AssemblyInfo.cs
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.dll
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.pdb
+C:\Users\alangulo\OneDrive - Microsoft\Documents\ICUHelper\ICUHelper\simulated-device\obj\Debug\netcoreapp2.1\BedSideMonitorSimulator.genruntimeconfig.cache

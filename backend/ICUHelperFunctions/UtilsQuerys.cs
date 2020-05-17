@@ -136,7 +136,7 @@ namespace ICUHelperFunctions
                
                 try
                 {
-                    SqlConnection connection = new SqlConnection(cnnString); 
+                    SqlConnection connection = new SqlConnection("Server=nursehack.database.windows.net;Database=nursehackdb;Integrated Security=False;User ID=isacalderon;Password=SuperSecret!;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"); 
                     command = new SqlCommand(query, connection); 
                     connection.Open(); 
                     SqlDataReader data = command.ExecuteReader();

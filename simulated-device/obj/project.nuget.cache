@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Dc7rzGrYAb9QotjOoXH/LHctUPPJlxLtm3PgpkOK+FzYQPM9BN4G65IkG+eoGhtz3da+Qft5MyP/SIdK5xhIlg==",
+  "dgSpecHash": "+s7PgpsIiezNko6xJt8H8wVCgMetaR9HI+mbge9MU1rDPr4sEIc0mr2r/sLrcP8GHZy96Okx1h9klHULX71+ew==",
   "success": true,
-  "projectFilePath": "C:\\Users\\alangulo\\Downloads\\azure-iot-samples-csharp-master\\azure-iot-samples-csharp-master\\iot-hub\\Quickstarts\\simulated-device\\BedSideMonitorSimulator.csproj",
+  "projectFilePath": "C:\\Users\\alangulo\\OneDrive - Microsoft\\Documents\\ICUHelper\\ICUHelper\\simulated-device\\BedSideMonitorSimulator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\alangulo\\.nuget\\packages\\dotnetty.buffers\\0.6.0\\dotnetty.buffers.0.6.0.nupkg.sha512",
     "C:\\Users\\alangulo\\.nuget\\packages\\dotnetty.codecs\\0.6.0\\dotnetty.codecs.0.6.0.nupkg.sha512",

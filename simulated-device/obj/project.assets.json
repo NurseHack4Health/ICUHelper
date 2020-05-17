@@ -5814,11 +5814,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alangulo\\Downloads\\azure-iot-samples-csharp-master\\azure-iot-samples-csharp-master\\iot-hub\\Quickstarts\\simulated-device\\BedSideMonitorSimulator.csproj",
+      "projectUniqueName": "C:\\Users\\alangulo\\OneDrive - Microsoft\\Documents\\ICUHelper\\ICUHelper\\simulated-device\\BedSideMonitorSimulator.csproj",
       "projectName": "BedSideMonitorSimulator",
-      "projectPath": "C:\\Users\\alangulo\\Downloads\\azure-iot-samples-csharp-master\\azure-iot-samples-csharp-master\\iot-hub\\Quickstarts\\simulated-device\\BedSideMonitorSimulator.csproj",
+      "projectPath": "C:\\Users\\alangulo\\OneDrive - Microsoft\\Documents\\ICUHelper\\ICUHelper\\simulated-device\\BedSideMonitorSimulator.csproj",
       "packagesPath": "C:\\Users\\alangulo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alangulo\\Downloads\\azure-iot-samples-csharp-master\\azure-iot-samples-csharp-master\\iot-hub\\Quickstarts\\simulated-device\\obj\\",
+      "outputPath": "C:\\Users\\alangulo\\OneDrive - Microsoft\\Documents\\ICUHelper\\ICUHelper\\simulated-device\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
