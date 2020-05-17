@@ -38,8 +38,12 @@ namespace ICUHelperFunctions
             auxObj.gender = Int32.Parse(req.Query["genderId"]);
 
             DateTime dob = Convert.ToDateTime(req.Query["dob"]);
+           // DateTime fecha = Convert.ToDateTime(req.Query["dob"]);
 
-            auxObj.patientId = hashGeneratorHistoryPatient(auxObj);
+            Random random = new Random();
+            // Any random integer   
+            int num = random.Next();
+            auxObj.patientId = num;
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -145,31 +149,6 @@ namespace ICUHelperFunctions
         }
 
 
-        public static string hashGeneratorHistoryPatient(Patient objPatient) {
-
-
-            // generate a 128-bit salt using a secure PRNG
-            byte[] salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-            Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
-
-            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: objPatient.fullName+objPatient.idNumber,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-
-            return hashed;
-
-
-
-
-        }
     }
 
 
