@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Text; 
+using System.Web.Http; 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -18,107 +20,64 @@ namespace ICUHelperFunctions
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            HealthCareWorker auxObj = new HealthCareWorker();
+           try
+           {
 
+            int hitoryNumber= Int32.Parse(req.Query["historyNumber"]);   
+            // UtilsQuerys utilsQuerys= new UtilsQuerys(); 
+            var patient= GetPatient(hitoryNumber);    
+             return new ObjectResult(patient); 
 
+           }
+           catch(Exception ex)
+           {
+                return new ExceptionResult (ex, true); 
 
-            auxObj.userId = Int32.Parse(req.Query["idNumber"]);
-
-
-
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-
-
-            string responseMessage = "";
-
-            if (string.IsNullOrEmpty(req.Query["idNumber"]))
-            {
-                responseMessage = "{\"result\":\" parameter missing in your request\"}";
-                return new OkObjectResult(responseMessage);
-
-            }
-            else
-            {
-
-
-                string writeResult = searchDB(auxObj);
-
-                if (writeResult == "inserted patient into DB")
-                {
-                    responseMessage = writeResult;
-                    return new OkObjectResult(responseMessage);
-                }
-                else
-                {
-                    responseMessage = writeResult;
-                    return new OkObjectResult(responseMessage);
-                }
-
-            }
+           }
+           
         }
 
-
-
-
-        public static string searchDB(HealthCareWorker objPatient)
+          public static DatePatients GetPatient(int history) 
         {
+            DatePatients patients= new DatePatients(); 
 
-            string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+            StringBuilder sbQuery= new StringBuilder(); 
+            sbQuery.Append("SELECT p.history_number, s.full_name, g.value as patient_gender, c.value as patient_condition, p.using_ventilator"); 
+            sbQuery.Append(" FROM dbo.patient p JOIN dbo.users s on (s.id=p.user_id) JOIN dbo.conditions c on (c.id=p.condition_id) JOIN dbo.gender g on (s.gender_id=g.id)"); 
+            sbQuery.AppendFormat(" WHERE p.history_number = {0}", history); 
 
-            int result = 0;
-            using (SqlConnection connection = new SqlConnection(cnnString))
-            {
-                String query = "get the patient list given doc ID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+           
+            string cnnString= "Server=tcp:nursehack.database.windows.net,1433;Initial Catalog=nursehackdb;Persist Security Info=False;User ID=alerico;Password=Albus19878712;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"; 
+               
+                try
                 {
-                    try
+                    SqlConnection connection = new SqlConnection(cnnString); 
+                    SqlCommand command = new SqlCommand(sbQuery.ToString(), connection); 
+                    connection.Open(); 
+                    SqlDataReader data = command.ExecuteReader();
+                    while (data.Read())
                     {
-
-                        command.Parameters.AddWithValue("@user_id", objPatient.userId);
-
-
-
-                        connection.Open();
-                        result = command.ExecuteNonQuery();
-
-                        if (result > 0)
-                        {
-
-                            return "inserted patient into DB";
-                        }
-
-                        else
-                        {
-
-                            return "no patient added";
-                        }
-
-
-                    }
-                    catch (Exception e)
-                    {
-
-                        Console.WriteLine("Error inserting data into Database!");
-                        return "error inserting into DB";
-                        //return result;
+                        patients.history_number=Convert.ToInt32( data["history_number"]); 
+                        patients.full_name= data["full_name"].ToString(); 
+                        patients.patient_condition= data["patient_condition"].ToString(); 
+                        patients.patient_gender= data["patient_gender"].ToString(); 
+                        patients.using_ventilator=data["using_ventilator"].ToString(); 
                     }
 
-
-
-
-
-
-
-
+                    data.Close();   
 
                 }
+                catch(Exception ex)
+                {
+                    throw ex; 
+                }                  
 
+         
 
-
-            }
-
+            return patients; 
         }
+
     }
+        
 }
 

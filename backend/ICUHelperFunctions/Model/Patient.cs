@@ -10,7 +10,7 @@ namespace ICUHelperFunctions
     {
    
 
-        public string patientId { get; set; }
+        public int patientId { get; set; }
 
         public  DateTime dateIngress { get; set; }
 

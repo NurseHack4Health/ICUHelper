@@ -1,14 +1,12 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html style="width:100%;font-family:roboto, 'helvetica neue', helvetica, arial, sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;padding:0;Margin:0;">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 <head>
-<style>
-.wrapper {
-  width: 400px;
-  margin: 20px auto 0;
-  text-align: center;
-</style>
-
-
 <div style="background-color: #282c36">
     <table cellpadding="0" cellspacing="0" width="700" bgcolor="#282c36" align="center">
         <tbody><tr><td cellpadding="0" cellspacing="0" height="auto" valign="top">
@@ -24,7 +22,7 @@
               <tbody><tr><td height="30" style="vertical-align:top ;text-align: center;">
               </td>
           </tr></tbody></table>
-          <table cellpadding="0" cellspacing="0" width="600" bgcolor="#FFFFFF" align="center" style="border-top-left-radius: 5px;border-top-right-radius: 5px; border-top:8px solid #05C1F3">
+          <table cellpadding="0" cellspacing="0" width="600" bgcolor="#FFFFFF" align="center" style="border-top-left-radius: 5px;border-top-right-radius: 5px; border-top:8px solid #046eb3">
             <tbody><tr><td>
               <table width="520" align="center" style="vertical-align:top;">
                   <tbody><tr><td height="20" style="vertical-align:top;">
@@ -35,11 +33,11 @@
                   </td>
               </tr></tbody></table>
               <table width="520" align="center" style="vertical-align:top;">
-                  <tbody><tr><td height="20" style="vertical-align:top;text-align: center;"><p style="margin:0px;color:black;font-size:12px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:center;"><img src="https://raw.githubusercontent.com/NurseHack4Health/ICUHelper/master/img/hospital_logo.png"width="350"><img src="https://raw.githubusercontent.com/NurseHack4Health/ICUHelper/master/img/red_cross.png" width="150"></p>
+                  <tbody><tr><td height="20" style="vertical-align:top;text-align: center;"><p style="margin:0px;color:black;font-size:12px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:center;"><img src="https://raw.githubusercontent.com/NurseHack4Health/ICUHelper/master/img/app_logo.jpeg" width="350"></p>
                   </td>
               </tr></tbody></table>
               <table width="520" align="center" style="vertical-align:top;">
-                  <tbody><tr><td height="auto" style="display:block;vertical-align:top;">
+                  <tbody><tr><td height="auto" style="display:block;">
                     <h1 style="margin:0px;font-size:15px;line-height:150%;font-weight:600;font-family: 'Verdana', sans-serif; text-align: center;color: #FF0000; ">URGENT!,</h1>
                   </td>
               </tr></tbody></table>
@@ -49,8 +47,8 @@
               </tr></tbody></table>
               <table width="520" align="center" style="vertical-align:top;">
                   <tbody><tr>
-                    <td align="center" style="display:block;vertical-align:top;">
-                      <p style="margin:0px;color:black;font-size:20px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:center;"><b>Supplies are running low!</b></p>
+                    <td align="center" style="display:block;">
+                      <p style="margin:0px;color:black;font-size:20px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:center;"><b>Ventilators are running out!</b></p>
                     </td>
                   </tr>
 
@@ -60,30 +58,8 @@
                     </td>
                   </tr>
                   <tr>
-                    <td align="center" style="display:block;vertical-align:top;">
-                      <p style="margin:0px;color:black;font-size:12px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:justify">As we know the medical ventilators are one important part of the COVID-19 treatment, right now we are running low of supplies in the hospital. <b>Please get in touch with the medical staff to solve this critical issue.</b></p>
-                    <p> Low supplies: 
-                    </p>
-                    <div class="wrapper">
-                        <button>Mostrar paises</button>
-                      </div>
-                     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
-                     <script>
-                         var low_supplies="https://icuhelperfunctions.azurewebsites.net/api/getInventory?code=46BiSoIBZ6yUvaFkEuaRE/r0CUoZnJ7EfoJ7/ic9ldwVcf/gmNLBJg==" ;
-                          function(){
-                          var response = $res.text(low_supplies);
-                           var $table = $('<table></table>');
-                          $table.append("<tr><th>SKU</th><th>Name</th><th>Inventory</th></tr</th></tr>")
-                           $.each(response, function(i, item) {
-                               var tr = $('<tr>').append(
-                                 $('<td>').text(item.sku),
-                                   $('<td>').text(item.name),
-                                   $('<td>').text(item.inventory)
-                               ); 
-                               $table.append(tr);
-                             });
-                         }
-                     </script>
+                    <td align="center" style="display:block;">
+                      <p style="margin:0px;color:black;font-size:12px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:justify">As we know the medical ventilators are one important part of the COVID-19 treatment, right now we have less than <b>5 units</b> in the hospital. <b>Please get in touch with the medical staff to solve this critical issue.</b></p>
                     </td>
                   </tr>
 
@@ -101,7 +77,7 @@
               </tbody></table>
               <table width="520" align="center" style="vertical-align:top;">
                   <tbody><tr>
-                    <td align="center" height="30" style="display:block;vertical-align:top;">
+                    <td align="center" height="30" style="display:block;">
                     </td>
                   </tr>
               </tbody></table>
@@ -110,19 +86,19 @@
 
           <table width="520" align="center" style="vertical-align:top;">
               <tbody><tr>
-                <td align="center" height="10" style="display:block;vertical-align:top;">
+                <td align="center" height="10" style="display:block;">
                 </td>
               </tr>
           </tbody></table>
           <table width="520" align="center" style="vertical-align:top;">
               <tbody><tr>
-                <td align="center" height="10" style="display:block;vertical-align:top;">
+                <td align="center" height="10" style="display:block;">
                 </td>
               </tr>
           </tbody></table>
           <table width="520" align="center" style="vertical-align:top;">
               <tbody><tr>
-                <td align="center" height="30" style="display:block;vertical-align:top;">
+                <td align="center" height="30" style="display:block;">
                 </td>
               </tr>
           </tbody></table>
@@ -131,3 +107,5 @@
     </tr></tbody></table>
 
 </div>
+</head>
+</html>

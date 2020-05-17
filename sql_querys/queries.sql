@@ -166,10 +166,18 @@ UPDATE dbo.Patient SET using_ventilator = @using_ventilator Where id = @patient_
 /*Query who calls the email from the persons who has the adminitration role. 
 */
 
-SELECT ua.email
+SELECT ua.email, 
+       u.full_name
 FROM rol r
     JOIN rol_type rt on (rt.id=r.rol_type_id)
     JOIN users u on (u.id=r.user_id)
     JOIN user_auth ua on (ua.user_id=u.id)
 WHERE rt.id=3; 
+
+/* Query that calls the email template using a specific event name
+*/
+
+SELECT et.template
+FROM dbo.email_templates et
+WHERE et.event_name=@event_name; 
 
