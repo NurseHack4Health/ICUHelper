@@ -97,8 +97,7 @@ WITH
     )
 /* consults how many ventilators are in the inventory ans saves in the @vents_avalible var.  
 */
-DECLARE @vents_avalible int
-SELECT @vents_avalible = avalible-in_use
+SELECT avalible-in_use
 FROM ventilator_inventory vi
     JOIN ventilator_in_use vu on (vi.org=vu.org)
 
