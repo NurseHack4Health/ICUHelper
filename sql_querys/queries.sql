@@ -174,3 +174,10 @@ FROM rol r
     JOIN user_auth ua on (ua.user_id=u.id)
 WHERE rt.id=3; 
 
+/* Query that calls the email template using a specific event name
+*/
+
+SELECT et.template
+FROM dbo.email_templates et
+WHERE et.event_name=@event_name; 
+
