@@ -86,7 +86,7 @@ namespace ICUHelperFunctions
         public static int WriteToDB(Patient objPatient)
         {
 
-            string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+            string cnnString = "Server=nursehack.database.windows.net;Database=nursehackdb;Integrated Security=False;User ID=isacalderon;Password=SuperSecret!;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"; 
 
             //  Console.WriteLine(cnnString);
             int result = 0;

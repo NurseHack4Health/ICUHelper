@@ -132,7 +132,8 @@ namespace ICUHelperFunctions
 
         private  SqlDataReader connectionBD(string query)        
         {        
-               string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+            //    string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+            string cnnString= "Server=nursehack.database.windows.net;Database=nursehackdb;Integrated Security=False;User ID=isacalderon;Password=SuperSecret!;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"; 
                
                 try
                 {
