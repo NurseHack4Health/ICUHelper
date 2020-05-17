@@ -12,8 +12,6 @@ using System.Security.Cryptography;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace ICUHelperFunctions
-
-
 {
     public static class AddPatient
     {
@@ -131,19 +129,7 @@ namespace ICUHelperFunctions
                         return "error inserting into DB";
                         //return result;
                     }
-
-
-
-
-
-
-
-
-
                 }
-
-
-
             }
 
         }

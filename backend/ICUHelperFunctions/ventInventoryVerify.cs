@@ -1,11 +1,14 @@
 using System;
+using System.Text; 
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Extensions.Logging;
 using SendGrid;
 using SendGrid.Helpers.Mail;
-using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
 
 namespace ICUHelperFunctions
 {
@@ -13,40 +16,39 @@ namespace ICUHelperFunctions
     {
         [FunctionName("ventInventoryVerify")]
         public static async Task RunAsync([TimerTrigger("0 0 */6 * * *")]TimerInfo myTimer, ILogger log)
+       
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
 
-            var vent=false;
+            UtilsQuerys uq= new UtilsQuerys(); 
+            int vent=  uq.getVentilators(); 
             //Missing get ventilators here 
-
-
-            ///Get the administrator email
-            var adminEmail="";
-            var adminName = "";
-
-            if (vent==true) {
+            if(vent <= 5 )
+            {
+                 UserAdmin user= uq.getUserAdmin();
+   
+                var adminEmail= user.email;
+                var adminName = user.fullName;         
 
                 string sendgridApi = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
                 string fromEmail = Environment.GetEnvironmentVariable("FROMEMAIL");
                 string fromUser = Environment.GetEnvironmentVariable("FROMUSER");
-
+                  
                 var client = new SendGridClient(sendgridApi);
                 var from = new EmailAddress(fromEmail, fromUser);
                 var subject = "Ventilators are running out!";
                 var to = new EmailAddress(adminEmail, adminName);
-                var plainTextContent = "";
-                var htmlContent = ""; //MISSING TEMPLATE
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                StringBuilder strHtml= uq.getTemplateEmail("low_ventilators"); 
+                //var plainTextContent = "";
+                var htmlContent = strHtml.ToString(); //MISSING TEMPLATE
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, "", htmlContent);
                 var response = await client.SendEmailAsync(msg);
+
             }
-
-
-            //else return ""
-
-           
-
-
-
+            else
+            {
+                log.LogInformation($"there are enough ventilator");
+            }
         }
     }
 }
