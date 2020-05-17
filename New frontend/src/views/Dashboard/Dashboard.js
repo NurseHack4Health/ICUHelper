@@ -62,7 +62,7 @@ export default class Dashboard extends React.Component {
   }
   componentWillMount(){
     this.getUsersData()
-  }7
+  }
   render() {
     const style = {height: 650}
     console.log(this.state.token);
