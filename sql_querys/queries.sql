@@ -97,8 +97,7 @@ WITH
     )
 /* consults how many ventilators are in the inventory ans saves in the @vents_avalible var.  
 */
-DECLARE @vents_avalible int
-SELECT @vents_avalible = avalible-in_use
+SELECT avalible-in_use
 FROM ventilator_inventory vi
     JOIN ventilator_in_use vu on (vi.org=vu.org)
 
@@ -167,10 +166,18 @@ UPDATE dbo.Patient SET using_ventilator = @using_ventilator Where id = @patient_
 /*Query who calls the email from the persons who has the adminitration role. 
 */
 
-SELECT ua.email
+SELECT ua.email, 
+       u.full_name
 FROM rol r
     JOIN rol_type rt on (rt.id=r.rol_type_id)
     JOIN users u on (u.id=r.user_id)
     JOIN user_auth ua on (ua.user_id=u.id)
 WHERE rt.id=3; 
+
+/* Query that calls the email template using a specific event name
+*/
+
+SELECT et.template
+FROM dbo.email_templates et
+WHERE et.event_name=@event_name; 
 

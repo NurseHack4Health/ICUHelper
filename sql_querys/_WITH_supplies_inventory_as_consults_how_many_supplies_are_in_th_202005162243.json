@@ -1,0 +1,23 @@
+{
+" WITH\n    supplies_inventory\n    as\n    (\n        \/* consults how many supplies are in the inventory\n    *\/\n        SELECT s.id,\n            s.sku,\n            s.name,\n            s.inventory as deposit\n        FROM dbo.supplies s\n    ),\n\n    supplies_in_use\n    as\n    (\n        \/* consults how many supplies are in use\n    *\/\n        SELECT ps.supplies_id,\n            COUNT (id) as in_use\n        FROM dbo.patient_supplies ps\n        GROUP BY ps.supplies_id\n    )\n\/* consults how many supplies avalible an saves in the supplies_avalible var.  \n*\/\nSELECT si.sku,\n    si.name,\n    SUM(si.deposit - suin.in_use) as supplies_avalible\nFROM supplies_inventory si\n    JOIN supplies_in_use suin on (suin.supplies_id=si.id)\nGROUP BY si.sku,si.name\nHAVING SUM(si.deposit - suin.in_use) < 10;": [
+	{
+		"sku" : "58118-0458",
+		"name" : "ONDANSETRON",
+		"supplies_avalible" : 2
+	},
+	{
+		"sku" : "49349-824",
+		"name" : "Salt Grass",
+		"supplies_avalible" : 3
+	},
+	{
+		"sku" : "48951-7071",
+		"name" : "TITANIUM DIOXIDE, Octinoxate, Zinc Oxide",
+		"supplies_avalible" : 9
+	},
+	{
+		"sku" : "55714-2316",
+		"name" : "Trandolapril and Verapamil Hydrochloride",
+		"supplies_avalible" : 9
+	}
+]}

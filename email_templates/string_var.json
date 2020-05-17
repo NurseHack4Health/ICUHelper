@@ -1,0 +1,17 @@
+{"inventory": [
+    {
+        "sku": "51812-0001",
+        "name": "Acetaminophen",
+        "supplies_avaible": 32
+    },
+    {
+        "sku": "0703-6801",
+        "name": "Acetaminophen, Chlorpheniramine Maleate, and Phenylephrine Hydrochloride",
+        "supplies_avaible": 298
+    },
+    {
+        "sku": "50563-400",
+        "name": "Acetaminophen, Diphenhydramine Hydrochloride, and Phenylephrine Hydrochloride",
+        "supplies_avaible": 11
+    }]
+}

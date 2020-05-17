@@ -23,7 +23,7 @@ namespace ICUHelperFunctions
 
 
             auxObj.userId = Int32.Parse(req.Query["idNumber"]);
-
+           
 
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -76,7 +76,7 @@ namespace ICUHelperFunctions
                     {
 
                         command.Parameters.AddWithValue("@user_id", objPatient.userId);
-
+                        
 
 
                         connection.Open();
@@ -118,7 +118,7 @@ namespace ICUHelperFunctions
 
             }
 
-        }
     }
+        }
 }
 
