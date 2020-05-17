@@ -38,28 +38,50 @@ namespace ICUHelperFunctions
           public StringBuilder getTemplateEmail(string event_name, string param= " " ) 
         {
             StringBuilder sbQuery= new StringBuilder(); 
-            sbQuery.AppendFormat("SELECT et.template FROM dbo.email_templates et WHERE et.event_name=@event_name;", event_name); 
+            sbQuery.AppendFormat("SELECT et.template FROM dbo.email_templates et WHERE et.event_name='{0}';", event_name); 
             SqlDataReader data= connectionBD(sbQuery.ToString()); 
             StringBuilder htmlEmail= new StringBuilder(); 
+            try{
 
             while (data.Read())
             {
                 if(!param.Equals(" "))
-                    htmlEmail.AppendFormat( data["template"].ToString(), param); 
+                    htmlEmail.Append( data.GetValue(0).ToString()) ; 
                 else 
                    htmlEmail.Append( data["template"].ToString());
             }
             data.Close(); 
+            
+            } catch(Exception ex)
+            {
 
+
+            }
             return htmlEmail; 
+        }
+
+          public int getVentilators() 
+        {
+            StringBuilder sbQuery= new StringBuilder(); 
+            sbQuery.Append("WITH  ventilator_inventory  as ( SELECT s.inventory as avalible, 1 as org  FROM dbo.supplies s  WHERE name like ('%Ventilator%')), "); 
+            sbQuery.Append("ventilator_in_use  as ( SELECT COUNT (id) as in_use, 1 as org  from dbo.patient p  WHERE p.using_ventilator=1 ) "); 
+            sbQuery.Append("SELECT avalible-in_use FROM ventilator_inventory vi JOIN ventilator_in_use vu on (vi.org=vu.org)"); 
+            SqlDataReader data = connectionBD(sbQuery.ToString()); 
+            int totalVentiladores= 0; 
+
+            while (data.Read())
+            {
+                totalVentiladores= data.GetInt32(0);  
+            }
+            data.Close(); 
+            return totalVentiladores; 
         }
 
 
         private  SqlDataReader connectionBD(string query)        
         {        
-              //string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
-             string cnnString = "Server=nursehack.database.windows.net;Database=nursehackdb;Integrated Security=False;User ID=isacalderon;Password=SuperSecret!;Connect Timeout=30;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False;"; 
-                  
+              string cnnString = Environment.GetEnvironmentVariable("DB_CONNECTION");
+                
                 try
                 {
                     SqlConnection connection = new SqlConnection(cnnString); 

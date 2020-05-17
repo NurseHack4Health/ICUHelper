@@ -20,9 +20,7 @@ namespace ICUHelperFunctions
     public static class inventoryReport
     {
         [FunctionName("inventoryReport")]
-       // public static void Run([TimerTrigger("0 0 0 * * *")]TimerInfo myTimer, ILogger log)
-       public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "get", Route = null)] HttpRequest req,
-                                                   ILogger log)
+        public static void Run([TimerTrigger("0 0 0 * * *")]TimerInfo myTimer, ILogger log)
         {
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
             List<InventoryAvaible> lowInventor=  ReadLowInventoryDB(); 
@@ -35,9 +33,9 @@ namespace ICUHelperFunctions
                 UtilsQuerys uq= new UtilsQuerys(); 
                 UserAdmin user= uq.getUserAdmin();
    
-                string sendgridApi = "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"; //Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
-                string fromEmail ="calderonisa90@gmail.com"  ; //Environment.GetEnvironmentVariable("FROMEMAIL");
-                string fromUser = "Isa calderón"; //Environment.GetEnvironmentVariable("FROMUSER");
+                 string sendgridApi = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+                string fromEmail = Environment.GetEnvironmentVariable("FROMEMAIL");
+                string fromUser = Environment.GetEnvironmentVariable("FROMUSER");
 
                 var adminEmail= user.email;
                 var adminName = user.fullName;
@@ -46,10 +44,10 @@ namespace ICUHelperFunctions
                 var from = new EmailAddress(fromEmail, fromUser);
                 var subject = "Alarm we need more supplies";
                 var to = new EmailAddress(adminEmail, adminName);
-                var plainTextContent = json_lowInventor;
+                //var plainTextContent = json_lowInventor;
                 StringBuilder strHtml= uq.getTemplateEmail("low_supplies", json_lowInventor); 
                 string htmlContent= strHtml.ToString(); 
-                var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
+                var msg = MailHelper.CreateSingleEmail(from, to, subject, " ", htmlContent);
                 Task<Response> response =  client.SendEmailAsync(msg);
                 response.Wait(); 
                 var rep= response.Result; 
@@ -61,8 +59,6 @@ namespace ICUHelperFunctions
                  log.LogInformation($"We have enough supplies!! ");
 
             }
-
-               return new OkObjectResult("Vamos bien");
         }
 
         public static bool SendEmail(string lowInventor )
