@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Data.SqlClient;
 using System.Text.Json.Serialization;
+using System.Text;
 
 namespace ICUHelperFunctions
 {
@@ -89,11 +90,12 @@ namespace ICUHelperFunctions
 
             //  Console.WriteLine(cnnString);
             int result = 0;
-            using (SqlConnection connection = new SqlConnection(cnnString))
+            using (SqlConnection connection = new SqlConnection("Server=tcp:nursehack.database.windows.net,1433;Initial Catalog=nursehackdb;Persist Security Info=False;User ID=alerico;Password=Albus19878712;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"))
             {
                 var sqlFormattedDate = objPatient.dob.Date.ToString("yyyy-MM-dd HH:mm:ss");
                 //String query = "insert into [dbo].[patient] (user_id,condition_id) values (@userId,@conditionId)";
-                String query = "insert into [dbo].[users](full_name, phone,emergency_contact,phone_emergency_contact,gender_id,date_of_birth,identification_number,identificaton_type,history_number) values (@full_name, @phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type,@history_number); ";
+                String query = "insert into [dbo].[users](full_name, phone,emergency_contact,phone_emergency_contact,gender_id,date_of_birth,identification_number,identificaton_type) values (@full_name, @phone, @emergency_contact, @phone_emergency_contact, @gender_id, @date_of_birth, @identification_number, @identificaton_type); ";
+
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
@@ -111,6 +113,9 @@ namespace ICUHelperFunctions
 
                         connection.Open();
                         result = command.ExecuteNonQuery();
+                        connection.Close();
+
+
                     }
                     catch (Exception e)
                     {
@@ -119,6 +124,38 @@ namespace ICUHelperFunctions
                         //return result;
                     }
                 }
+
+                int idInsert = 0;
+                StringBuilder sBquery = new StringBuilder();
+                sBquery.Append("DECLARE @return_value int ");
+                sBquery.AppendFormat("EXEC	@return_value = [dbo].[new_patient] @history_number={0}, @patientid_out= null ",
+                                      objPatient.patientId);
+                sBquery.Append("SELECT	'Return Value' = @return_value ");
+                 query = sBquery.ToString();
+                SqlDataReader dataReader;
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    try
+                    {
+                        connection.Open();
+                        dataReader = command.ExecuteReader();
+
+                        while (dataReader.Read())
+                        {
+                            idInsert = dataReader.GetInt32(0);
+                        }
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+
+
+
+
 
                 return result;
             }
