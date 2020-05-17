@@ -37,7 +37,7 @@
                             </tbody>
                         </table>
                         <table cellpadding="0" cellspacing="0" width="600" bgcolor="#FFFFFF" align="center"
-                            style="border-top-left-radius: 15px;border-top-right-radius: 15px; border-top:8px solid #dc3545">
+                            style="border-top-left-radius: 15px;border-top-right-radius: 15px; border-top:8px solid #046eb3">
                             <tbody>
                                 <tr>
                                     <td>
@@ -64,7 +64,7 @@
                                                         <p
                                                             style="margin:0px;color:black;font-size:12px;line-height:150%;font-weight:400;font-family: 'Verdana', sans-serif;text-align:center;">
                                                             <img src="https://raw.githubusercontent.com/NurseHack4Health/ICUHelper/master/img/app_logo.jpeg" width="350">
-                                                                <img src="https://raw.githubusercontent.com/NurseHack4Health/ICUHelper/master/img/red_cross.png" width="150"></p>
+                                                            </p>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -113,27 +113,60 @@
                                                                 medical staff to solve this critical issue.</b></br></br></p>
                                                         <p> <b>Low supplies:</b>
                                                         </p>
-                                                        <div class="wrapper">
-                                                        </div>
-                                                        <script
-                                                            src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-                                                        <script>
-                                                            var low_supplies = '[{"sku":"58118-0458","name":"ONDANSETRON","supplies_avalible":2},{"sku":"49349-824","name":"Salt Grass","supplies_avalible":3},{"sku":"48951-7071","name":"TITANIUM DIOXIDE, Octinoxate, Zinc Oxide","supplies_avalible":9},{"sku":"55714-2316","name":"Trandolapril and Verapamil Hydrochloride","supplies_avalible":9}]';
-                                                            $(".wrapper" , function () {
-                                                                var response = $.parseJSON(low_supplies);
-                                                                var $table = $('<table class="table table-striped"></table>');
-                                                                $table.append("<tr><th>SKU</th><th>Name</th><th>Inventory</th></tr</th></tr>")
-                                                                $.each(response, function (i, item) {
-                                                                    var tr = $('<tr>').append(
-                                                                        $('<td>').text(item.sku),
-                                                                        $('<td>').text(item.name),
-                                                                        $('<td>').text(item.supplies_avalible)
-                                                                    );
-                                                                    $table.append(tr);
-                                                                });
-                                                                $(".wrapper").append($table)
-                                                            })
-                                                        </script>
+                                                        <table class="table">
+                                                            <thead class="thead-dark">
+                                                            <tr>
+                                                                <th>SKU</th>
+                                                                <th>Name</th>
+                                                                <th>Inventory</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tr>
+                                                            <td height="70px" align="center">
+                                                                <p>58118-045</p>
+                                                            </td>
+                                                            <td>
+                                                                <p>ONDANSETRON</p>
+                                                            </td>
+                                                            <td height="auto" align="center">
+                                                                <p>2</p>
+                                                            </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td height="70px" align="justify">
+                                                                    <p>49349-824</p>
+                                                                </td>
+                                                                <td height="auto" align="justify">
+                                                                    <p>Salt Grass</p>
+                                                                </td>
+                                                                <td height="auto" align="center">
+                                                                    <p>3</p>
+                                                                </td>
+                                                            </tr>
+                                                           <tr>
+                                                                <td height="70px" align="justify">
+                                                                    <p>48951-707</p>
+                                                                </td>
+                                                                <td height="auto" align="justify">
+                                                                    <p>TITANIUM DIOXIDE, Octinoxate, Zinc Oxide</p>
+                                                                </td>
+                                                                <td height="auto" align="center">
+                                                                    <p>9</p>
+                                                                </td>
+                                                            </tr>
+                                                             <tr>
+                                                            <td height="70px" align="justify">
+                                                                <p>55714-231</p>
+                                                            </td>
+                                                            <td height="auto" align="justify">
+                                                                <p>Trandolapril and Verapamil Hydrochloride</p>
+                                                            </td>
+                                                            <td height="auto" align="center">
+                                                                <p>9</p>
+                                                            </td>
+                                                            </tr>
+                                                        </table>
+                                                        
                                                     </td>
                                                 </tr>
 
