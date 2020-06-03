@@ -58,8 +58,8 @@ export default class Patients extends React.Component {
       this.state = {
         columns: [
           { 
-            title: 'Patient Name', 
-            field: 'full_name', 
+            title: 'Full Name', 
+            field: 'fullName', 
             cellStyle: {
               width: 20,
               minWidth: 20
@@ -70,9 +70,8 @@ export default class Patients extends React.Component {
             } 
           },
           { 
-            title: 'Date Of Birth', 
-            field: 'date_of_birth',
-            type: 'date',
+            title: '  Age', 
+            field: 'age',
             cellStyle: {
               width: 20,
               minWidth: 20
@@ -84,7 +83,7 @@ export default class Patients extends React.Component {
           },
           { 
             title: 'Gender', 
-            field: 'patient_gender', 
+            field: 'gender', 
             cellStyle: {
               width: 10,
               minWidth: 10
@@ -93,14 +92,11 @@ export default class Patients extends React.Component {
               width: 10,
               minWidth: 10
             },
-            lookup: {
-              'M': 'Male',
-              'F': 'Female'
-            }
+            
           },
           { 
-            title: 'History Number', 
-            field: 'history_number',
+            title: 'Patient ID', 
+            field: 'patientid',
             type: 'numeric', 
             cellStyle: {
               width: 10,
@@ -112,8 +108,8 @@ export default class Patients extends React.Component {
             } 
           },
           { 
-            title: 'Treated', 
-            field: 'patient_condition',
+            title: 'Condition', 
+            field: 'condition',
             cellStyle: {
               width: 100,
               minWidth: 100
@@ -136,8 +132,8 @@ export default class Patients extends React.Component {
             }  
           },
           {
-            title: 'Condition',
-            field: 'condition',
+            title: 'Symptoms',
+            field: 'symptoms',
             cellStyle: {
               width: 20,
               minWidth: 20
@@ -146,21 +142,11 @@ export default class Patients extends React.Component {
               width:20,
               maxWidth: 20
             },
-            lookup: { 
-              1: "Good",
-              2: "Fair",
-              3: "Poor",
-              4: "Critical",
-              5: "Treated and Released",
-              6: "Treated and Transferred",
-              7: "Released",
-              8: "Dead"
-            },
+           
           },
           {
             title: 'Using Ventilator',
-            field: 'using_ventilator',
-            type: 'boolean',
+            field: 'isVent',
             cellStyle: {
               width: 20,
               minWidth: 20
@@ -177,9 +163,9 @@ export default class Patients extends React.Component {
     }
     fetchPatients() {
       axios
-      .get(`https://icuhelperfunctions.azurewebsites.net/api/getPatientsAssigned?code=vvanYgV6CrStwWIn0nyjAT73dOkGDa/duSDTm8bDOXPcOaYBpJ0aaw==`, {})
+      .get(`https://icuhelperreboot.azurewebsites.net/api/getPatients?code=e/FQe8elBMThnuB4qxKAL2LNESIObivYXo81KtBfwfr1znVWn75fTQ==&clientId=default`, {})
       .then(res => {
-        const data = res.data.inventory;
+        const data = res.data;
         this.setState({
           data
         })

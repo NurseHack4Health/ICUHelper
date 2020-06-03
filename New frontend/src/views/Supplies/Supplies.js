@@ -64,8 +64,8 @@ export default class Patients extends React.Component {
         } 
       },
       { 
-        title: 'Name', 
-        field: 'name', 
+        title: 'Barcode', 
+        field: 'barcode', 
         cellStyle: {
           width: 20,
           minWidth: 20
@@ -89,8 +89,8 @@ export default class Patients extends React.Component {
         } 
       },
       {
-        title: 'Inventory',
-        field: 'supplies_avaible',
+        title: 'Quantity',
+        field: 'quantity',
         type: 'numeric',
         cellStyle: {
           width: 20,
@@ -108,9 +108,10 @@ export default class Patients extends React.Component {
     }
     fetchSupplies() {
       axios
-      .get(`https://icuhelperfunctions.azurewebsites.net/api/getInventory?code=46BiSoIBZ6yUvaFkEuaRE/r0CUoZnJ7EfoJ7/ic9ldwVcf/gmNLBJg==`, {})
+      .get(`https://icuhelperreboot.azurewebsites.net/api/getInventory?code=lA6fYy1zs/vWtStuWlPoG/ZS/I8efNRU1FjHo5XnR/5qkhYX6KHB/A==`, {})
       .then(res => {
         const data = res.data.inventory;
+        
         this.setState({
           data
         })
@@ -120,7 +121,6 @@ export default class Patients extends React.Component {
       this.fetchSupplies()
     }
     
-  
     render() {
       return (
         <div>
@@ -140,9 +140,9 @@ export default class Patients extends React.Component {
                     onRowAdd: (newData) =>
                       new Promise((resolve) => {
                         newData.sku = moment(newData.sku, "number").format("number");
-                        newData.name = moment(newData.name, "text").format("text");
+                        newData.name = moment(newData.barcode, "text").format("text");
                         newData.description = moment(newData.description, "text").format("text");
-                        newData.supplies_avaible = moment(newData.supplies_avaible, "number").format("number");
+                        newData.supplies_avaible = moment(newData.quantity, "number").format("number");
                         const url = "https://icuhelperfunctions.azurewebsites.net/api/addInventory?code=qGQr6Npysu/ZQVYRuxii0oz7y8DYU8mr7JbfstfKeiHFiht8yGi8uw=="
                         axios.post(url, newData)
                         .then( res => {
