@@ -47,7 +47,7 @@ Trevor Greer trevor.a.greer@gmail.com
  
 Julio Angulo juliorico1993@gmail.com
  
-Astrid Nino astrid.nio@outlook.com
+Astrid Nino astrid.nio@gmail.com
  
 Isa Calderon calderonisa90@gmail.com
  
